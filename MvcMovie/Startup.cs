@@ -70,7 +70,7 @@ namespace MvcMovie
                 endpoints.MapControllerRoute(
                     name: "default",
                     // This is where the pattern is defined for the URLs of the site
-                    pattern: "{controller=Home}/{action=Index}/{id?}");  // Home and Index defines default route
+                    pattern: "{controller=Home}/{action=Index}/{id?}");  // Home and Index defines default route.  Adding in {id?} means the id is an optional field
             });
         }
     }
