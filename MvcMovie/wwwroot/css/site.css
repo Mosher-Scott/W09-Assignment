@@ -5,12 +5,34 @@ for details on configuring this project to bundle and minify static web assets. 
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Oswald&display=swap');
 
 /* My code */
+body {
+    background: #1b6ec2;
+}
+
+main {
+    background: white;
+    padding-left: 10px;
+}
+
+footer {
+    background: white;
+}
+
 h1 {
     font-family: 'Bree Serif', serif;
+    color: #1B1725;
 }
 p {
     font-family: 'Oswald', sans-serif;
-    color: pink;
+    color: #1B1725;
+}
+
+.col-lg p {
+    text-align: left;
+}
+
+li {
+    padding-left: 5px;
 }
 
 li a {
@@ -20,6 +42,14 @@ li a {
 
 .img-thumbnail {
     max-height: 100px;
+}
+
+img {
+    max-height: 300px;
+}
+
+dl {
+
 }
 
 td {
@@ -96,4 +126,66 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+@media (max-width: 700px) {
 
+    .nav-link {
+        margin: 2px;
+        background: #1b6ec2;
+        text-align: center;
+    }
+
+        .nav-link:hover {
+            color: #1b6ec2;
+            margin: 2px;
+            background: #1B1725;
+            border: 2px solid #1b6ec2;
+            text-align: center;
+        }
+
+    li a {
+        color: white !important;
+        font-size: 1.2em;
+    }
+
+    .img-thumbnail {
+        max-height: 400px;
+    }
+
+    .tableImage {
+        margin: auto;
+        text-align: center;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th {
+        display: none;
+    }
+
+        td:nth-of-type(2):before {
+            content: "Title: ";
+        }
+
+        td:nth-of-type(3):before {
+            content: "Release Date: ";
+        }
+
+        td:nth-of-type(4):before {
+            content: "Genre: ";
+        }
+
+        td:nth-of-type(5):before {
+            content: "Price: ";
+        }
+
+        td:nth-of-type(6):before {
+            content: "Rating: ";
+        }
+
+        td:nth-of-type(7):before {
+            content: "Options: ";
+        }
+
+}
