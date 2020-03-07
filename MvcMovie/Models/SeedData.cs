@@ -27,38 +27,42 @@ namespace MvcMovie.Models
                 context.Movie.AddRange(
                     new Movie
                     {
-                        Title = "When Harry Met Sally",
-                        ReleaseDate = DateTime.Parse("1989-2-12"),
-                        Genre = "Romantic Comedy",
+                        Title = "Saints & Soldiers",
+                        ReleaseDate = DateTime.Parse("2005-3-25"),
+                        Genre = "Action",
                         Price = 7.99M,
-                        Rating = "R"
+                        Rating = "PG-13",
+                        ImageName = "Saints-and-Soldiers.jpg"
                     },
 
                     new Movie
                     {
-                        Title = "Ghostbusters ",
-                        ReleaseDate = DateTime.Parse("1984-3-13"),
-                        Genre = "Comedy",
+                        Title = "The Saratov Approach",
+                        ReleaseDate = DateTime.Parse("2013-10-9"),
+                        Genre = "Action",
                         Price = 8.99M,
-                        Rating = "PG"
+                        Rating = "PG-13",
+                        ImageName = "The-Saratov-Approach.jpg"
                     },
 
                     new Movie
                     {
-                        Title = "Ghostbusters 2",
-                        ReleaseDate = DateTime.Parse("1986-2-23"),
+                        Title = "The Singles Ward",
+                        ReleaseDate = DateTime.Parse("2002-01-30"),
                         Genre = "Comedy",
                         Price = 9.99M,
-                        Rating = "PG"
+                        Rating = "PG",
+                        ImageName = "Singles-Ward.jpg"
                     },
 
                     new Movie
                     {
-                        Title = "Rio Bravo",
-                        ReleaseDate = DateTime.Parse("1959-4-15"),
-                        Genre = "Western",
+                        Title = "The Best Two Years",
+                        ReleaseDate = DateTime.Parse("2004-02-20"),
+                        Genre = "Comedy",
                         Price = 3.99M,
-                        Rating = "G"
+                        Rating = "PG",
+                        ImageName = "Best-Two-Years.jpg"
                     }
                 );
 

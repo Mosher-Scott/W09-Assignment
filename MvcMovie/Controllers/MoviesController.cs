@@ -10,9 +10,43 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
+
     public class MoviesController : Controller
     {
+
         private readonly MvcMovieContext _context;
+
+
+        // Returns a string list of available genres
+        public IEnumerable<string> GetAllGenres()
+        {
+            return new List<string>
+            {
+                "Comedy",
+                "Action",
+                "Family",
+                "Kids",
+            };
+        }
+
+        // This will do the work of taking the string list and turning it into the select list values
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<string> elements)
+        {
+            // Create an empty list to hold all the values
+            var selectList = new List<SelectListItem>();
+
+            foreach (var genre in elements)
+            {
+                // Will create your select list value, and the display text for each item
+                selectList.Add(new SelectListItem
+                {
+                    Value = genre,
+                    Text = genre
+                });
+            }
+
+            return selectList;
+        }
 
         public MoviesController(MvcMovieContext context)
         {
@@ -20,26 +54,127 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index(string movieGenre, string searchString)
+        public async Task<IActionResult> Index(string movieGenre, string searchString, string sortMethod)
         {
             // Use a linq query to get a list of the genres for the dropdown
             IQueryable<string> genreQuery = from m in _context.Movie
                                             orderby m.Genre
                                             select m.Genre;
 
-            // Create the linq query
+            // Create the linq query to get all the movies
             var movies = from m in _context.Movie
                          select m;
 
-            // If searchString is not empty or whitespace, run the query
-            if (!string.IsNullOrEmpty(searchString))
+            // If searchString is empty or whitespace, run the query
+            if (string.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(s => s.Title.Contains(searchString));
+                if (sortMethod == "default")
+                {
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre));
+                    }
+
+                    //else
+                    //{
+                    //    // Only search by title
+                    //    movies = movies.Where(s => s.Title.Contains(searchString));
+                    //}
+                }
+
+                if (sortMethod == "title")
+                {
+                    // Run this query if we need to sort by title
+                    movies = from m in _context.Movie
+                             orderby m.Title ascending
+                             select m;
+
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre));
+                    }
+
+                }
+
+                if (sortMethod == "releaseDate")
+                {
+                    // Run this query if we need to sort by title
+                    movies = from m in _context.Movie
+                             orderby m.ReleaseDate ascending
+                             select m;
+
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre));
+                    }
+
+                }
             }
 
-            if(!string.IsNullOrEmpty(movieGenre)) {
-                movies = movies.Where(s => s.Genre == movieGenre);
+            // If searchString is NOT empty or whitespace, run the query
+            if (!string.IsNullOrEmpty(searchString))
+            {
+
+
+
+                if (sortMethod == "default")
+                {
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre) && (s.Title.Contains(searchString)));
+                    }
+
+                    else
+                    {
+                        // Only search by title
+                        movies = movies.Where(s => s.Title.Contains(searchString));
+                    }
+                }
+
+                if (sortMethod == "title")
+                {
+                    // Run this query if we need to sort by title
+                    movies = from m in _context.Movie
+                             orderby m.Title ascending
+                             select m;
+
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre) && (s.Title.Contains(searchString)));
+                    }
+
+                    else
+                    {
+                        // Only search by title
+                        movies = movies.Where(s => s.Title.Contains(searchString));
+                    }
+
+                }
+
+                if (sortMethod == "releaseDate")
+                {
+                    // Run this query if we need to sort by title
+                    movies = from m in _context.Movie
+                             orderby m.ReleaseDate ascending
+                             select m;
+
+                    if (!string.IsNullOrEmpty(movieGenre))
+                    {
+                        movies = movies.Where(s => (s.Genre == movieGenre) && (s.Title.Contains(searchString)));
+                    }
+
+                    else
+                    {
+                        // Only search by title
+                        movies = movies.Where(s => s.Title.Contains(searchString));
+                    }
+
+                }
             }
+
+            //if(!string.IsNullOrEmpty(movieGenre)) {
+            //    movies = movies.Where(s => s.Genre == movieGenre);
+            //}
 
             var movieGenreVM = new MovieGenreViewModel
             {
@@ -70,8 +205,17 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            //// Get all dropdown items
+            //var movieGenres = GetAllGenres();
+
+            //// Create the model to pass to the page
+            //var newMovie = new Movie();
+
+            //// Now create the list of avialable options to be put on the page
+            //newMovie.MovieGenres = GetSelectListItems(movieGenres);
+
             return View();
         }
 
@@ -80,7 +224,7 @@ namespace MvcMovie.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating, ImageName")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +256,7 @@ namespace MvcMovie.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price, Rating")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price, Rating, ImageName")] Movie movie)
         {
             if (id != movie.Id)
             {

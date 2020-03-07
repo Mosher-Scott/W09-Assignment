@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 
 namespace MvcMovie.Models
 {
@@ -20,5 +19,8 @@ namespace MvcMovie.Models
 
         // The user entered search string
         public string SearchString { get; set; }
+
+        // Sort method
+        public string sortMethod { get; set; }
     }
 }
