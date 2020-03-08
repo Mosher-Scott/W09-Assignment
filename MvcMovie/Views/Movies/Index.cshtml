@@ -5,26 +5,30 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="text-center">Church Film Database</h1>
+<h1 class="text-center display-4">Church Film Database</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Add New Movie</a>
 </p>
 <!-- By adding in the method="get", it will add the search string/parameter to the url, aka if someone wanted to bookmark it -->
 <form asp-controller="Movies" asp-action="Index" method="get">
-    <p>
-        SortBy: <select id="SortedByList" asp-for="sortMethod">
-        <option value="default">ID (Default)</option>
-        <option value="title">Title</option>
-        <option value="releaseDate">Release Date</option>
+    <div class="form-group">
+        SortBy:  <select id="SortedByList" asp-for="sortMethod">
+            <option value="default">ID (Default)</option>
+            <option value="title">Title</option>
+            <option value="releaseDate">Release Date</option>
         </select>
-        Genre: <select asp-for="MovieGenre" asp-items="Model.Genres">
+    </div>
+    <div class="form-group">
+        Genre:  <select asp-for="MovieGenre" asp-items="Model.Genres">
             <option value="">All</option>
         </select>
-
-        Title: <input type="text" name="SearchString" asp-for="SearchString"/>
+    </div>
+    <div class="form-group">
+        Title:  <input type="text" name="SearchString" asp-for="SearchString" />
         <input type="submit" value="Filter" />
-    </p>
+        </div>
+
 </form>
 
 <table class="table">

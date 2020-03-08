@@ -63,6 +63,10 @@ a.navbar-brand {
     font-size: 30px;
 }
 
+.form-group {
+    padding: 1.5px;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -127,6 +131,8 @@ body {
 }
 
 @media (max-width: 700px) {
+
+
 
     .nav-link {
         margin: 2px;
